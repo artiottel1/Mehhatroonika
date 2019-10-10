@@ -1,0 +1,60 @@
+  //A sketch to demonstrate the tone() function
+
+//Specify digital pin on the Arduino that the positive lead of piezo buzzer is attached.
+int piezoPin = 8;
+int out = 10;
+
+// defines pins numbers
+const int trigPin = 9;
+const int echoPin = 11;
+
+// defines variables
+long duration;
+float distance;
+
+void setup() {
+pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+Serial.begin(9600); // Starts the serial communication
+}
+
+void loop() {
+
+int k = kaugus();
+Serial.println(k);
+
+/*Tone needs 2 arguments, but can take three
+    1) Pin#
+    2) Frequency - this is in hertz (cycles per second) which determines the pitch of the noise made
+    3) Duration - how long teh tone plays
+  */
+  //tone(piezoPin, 1000, 500);
+  
+  tone(piezoPin, 1000, 500);
+  analogWrite(out, 30);
+
+  delay(k);
+  digitalWrite(out, LOW);
+  delay(k);
+
+
+}  
+
+float kaugus(){
+//Clears the trigPin
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+
+// Sets the trigPin on HIGH state for 10 micro seconds
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+
+// Reads the echoPin, returns the sound wave travel time in microseconds
+duration = pulseIn(echoPin, HIGH);
+
+// Calculating the distance
+distance= (duration*0.034/2);
+return(distance);
+
+}
